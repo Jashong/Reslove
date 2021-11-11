@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Set time/date of loss as an array
+set -a time_array
+time_array=$(awk '{print $1,$2}' Roulette_Losses | sed 's/ /:/1')
+
+# Combine any dealer schedule to temp file
+for file in *_Dealer_schedule
+do
+  awk 'NR>2 { print FILENAME (NF?":":"") $0}' $file | sed \
+  '$d;s/_Dealer_schedule//g;s/ //1' >> dealer_sched
+done 
